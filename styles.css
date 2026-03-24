@@ -1,0 +1,160 @@
+#gemini-chat-navigator {
+  position: fixed;
+  top: 100px;
+  right: 20px;
+  width: 280px;
+  /* Allow height to grow based on content up to max-height */
+  height: auto;
+  max-height: calc(100vh - 120px);
+  background-color: var(--bard-color-surface, #ffffff);
+  border: 1px solid var(--bard-color-hairline, #e0e0e0);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 999999;
+  font-family: 'Google Sans', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  color: var(--bard-color-on-surface, #1f1f1f);
+  backdrop-filter: blur(10px);
+  transition: width 0.3s ease, height 0.3s ease, border-radius 0.3s ease;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+#gemini-chat-navigator.collapsed {
+  width: 40px;
+  /* Fixed height when collapsed to make it a perfect circle/button */
+  height: 40px;
+  border-radius: 20px;
+  padding: 0;
+}
+
+.navigator-header {
+  display: none; /* Hidden completely when expanded */
+}
+
+#gemini-chat-navigator.collapsed .navigator-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: none;
+  padding: 0;
+  cursor: pointer;
+  min-height: 40px;
+  height: 40px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* We removed the h3 element from JS, but keep rules clean */
+#gemini-chat-navigator h3 {
+  display: none;
+}
+
+.navigator-toggle {
+  /* Set exact box model properties to prevent flex stretching */
+  width: 24px !important;
+  height: 24px !important;
+  min-width: 24px !important;
+  min-height: 24px !important;
+  max-width: 24px !important;
+  max-height: 24px !important;
+  flex: 0 0 24px !important; /* Force flex not to grow or shrink */
+  fill: var(--bard-color-primary, #1a73e8); /* Make icon look nice and prominent */
+  display: block;
+  margin: 0;
+}
+
+/* 
+   We removed the CSS transform rotation entirely.
+   The JS now manually changes the SVG path between a Left Arrow and a Right Arrow.
+   This guarantees the icon physically changes direction without relying on CSS transforms.
+*/
+
+#gemini-navigator-list {
+  padding: 12px;
+  overflow-y: auto;
+  flex-grow: 1;
+  opacity: 1;
+  transition: opacity 0.2s ease;
+  display: block;
+}
+
+#gemini-chat-navigator.collapsed #gemini-navigator-list {
+  opacity: 0;
+  pointer-events: none;
+  padding: 0;
+  display: none;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  #gemini-chat-navigator {
+    background-color: var(--bard-color-surface, rgba(30, 30, 30, 0.9));
+    border-color: var(--bard-color-hairline, #444);
+    color: var(--bard-color-on-surface, #fff);
+  }
+  
+  .navigator-header {
+    border-bottom-color: var(--bard-color-hairline, #444);
+  }
+
+  #gemini-chat-navigator h3 {
+    color: var(--bard-color-primary, #8ab4f8);
+  }
+}
+
+.navigator-item {
+  padding: 8px 10px;
+  cursor: pointer;
+  border-radius: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 6px;
+  transition: background-color 0.2s, padding-left 0.2s;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.navigator-item:hover {
+  background-color: var(--bard-color-surface-hover, #f0f4f9);
+  padding-left: 14px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .navigator-item:hover {
+    background-color: var(--bard-color-surface-hover, #3c4043);
+  }
+}
+
+#gemini-navigator-empty {
+  color: #777;
+  font-style: italic;
+  font-size: 13px;
+  text-align: center;
+  padding: 10px 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  #gemini-navigator-empty {
+    color: #aaa;
+  }
+}
+
+/* Custom scrollbar for navigator */
+#gemini-chat-navigator::-webkit-scrollbar {
+  width: 6px;
+}
+#gemini-chat-navigator::-webkit-scrollbar-track {
+  background: transparent;
+}
+#gemini-chat-navigator::-webkit-scrollbar-thumb {
+  background: var(--bard-color-hairline, #ccc);
+  border-radius: 3px;
+}
+@media (prefers-color-scheme: dark) {
+  #gemini-chat-navigator::-webkit-scrollbar-thumb {
+    background: #666;
+  }
+}
