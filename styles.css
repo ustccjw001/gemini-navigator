@@ -30,20 +30,20 @@
 }
 
 .navigator-header {
-  display: none; /* Hidden completely when expanded */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--bard-color-hairline, #e0e0e0);
+  cursor: pointer;
+  min-height: 40px;
+  box-sizing: border-box;
 }
 
 #gemini-chat-navigator.collapsed .navigator-header {
-  display: flex;
-  align-items: center;
   justify-content: center;
   border-bottom: none;
   padding: 0;
-  cursor: pointer;
-  min-height: 40px;
-  height: 40px;
-  box-sizing: border-box;
-  width: 100%;
 }
 
 /* We removed the h3 element from JS, but keep rules clean */
@@ -65,11 +65,22 @@
   margin: 0;
 }
 
-/* 
-   We removed the CSS transform rotation entirely.
-   The JS now manually changes the SVG path between a Left Arrow and a Right Arrow.
-   This guarantees the icon physically changes direction without relying on CSS transforms.
-*/
+.filter-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 4px;
+  color: var(--bard-color-on-surface, #1f1f1f);
+}
+
+.filter-toggle:hover {
+  background-color: var(--bard-color-surface-hover, #f0f4f9);
+}
+
+#gemini-chat-navigator.collapsed .filter-toggle {
+  display: none;
+}
 
 #gemini-navigator-list {
   padding: 12px;
@@ -102,19 +113,87 @@
   #gemini-chat-navigator h3 {
     color: var(--bard-color-primary, #8ab4f8);
   }
+
+  .filter-toggle:hover {
+    background-color: var(--bard-color-surface-hover, #3c4043);
+  }
 }
 
 .navigator-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 8px 10px;
   cursor: pointer;
   border-radius: 6px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
   margin-bottom: 6px;
   transition: background-color 0.2s, padding-left 0.2s;
   font-size: 13px;
   line-height: 1.4;
+}
+
+.item-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-grow: 1;
+  margin-right: 8px;
+}
+
+.item-edit-input {
+  flex-grow: 1;
+  margin-right: 8px;
+  background: transparent;
+  border: 1px solid var(--bard-color-primary, #1a73e8);
+  color: var(--bard-color-on-surface, #1f1f1f);
+  font-family: inherit;
+  font-size: 13px;
+  padding: 2px 4px;
+  border-radius: 4px;
+  outline: none;
+  width: 0; /* Let flex-grow handle it */
+}
+
+@media (prefers-color-scheme: dark) {
+  .item-edit-input {
+    color: var(--bard-color-on-surface, #fff);
+  }
+}
+
+.item-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.item-edit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--bard-color-hairline, #ccc);
+  transition: transform 0.2s, color 0.2s, opacity 0.2s;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.item-star {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--bard-color-hairline, #ccc);
+  transition: transform 0.2s, color 0.2s;
+  opacity: 0.6;
+}
+
+.navigator-item:hover .item-edit {
+  opacity: 0.6;
+  pointer-events: auto;
+}
+
+.item-edit:hover, .item-star:hover {
+  transform: scale(1.2);
+  opacity: 1 !important;
 }
 
 .navigator-item:hover {
