@@ -5,7 +5,7 @@
   let filterToggle = null;
 
   // State
-  let showFavoritesOnly = true; // 默认开启收藏筛选
+  let showFavoritesOnly = false; // 默认不筛选收藏
   let favorites = new Set(JSON.parse(localStorage.getItem('gemini_navigator_favorites') || '[]'));
   let customLabels = JSON.parse(localStorage.getItem('gemini_navigator_labels') || '{}');
   let isEditing = false; // 标记是否正在编辑
