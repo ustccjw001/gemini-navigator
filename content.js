@@ -8,6 +8,7 @@
   let showFavoritesOnly = true; // 默认开启收藏筛选
   let favorites = new Set(JSON.parse(localStorage.getItem('gemini_navigator_favorites') || '[]'));
   let customLabels = JSON.parse(localStorage.getItem('gemini_navigator_labels') || '{}');
+  let isEditing = false; // 标记是否正在编辑
 
   function saveFavorites() {
     localStorage.setItem('gemini_navigator_favorites', JSON.stringify([...favorites]));
@@ -105,7 +106,7 @@
   }
 
   function updateNavigator() {
-    if (!navList) return;
+    if (!navList || isEditing) return; // 如果正在编辑，暂停更新以防输入框被重置
 
     const queryNodes = Array.from(getUserQueries());
     
@@ -154,6 +155,8 @@
       editSpan.addEventListener('click', (e) => {
         e.stopPropagation();
         
+        isEditing = true; // 开启编辑状态
+        
         const input = document.createElement('input');
         input.type = 'text';
         input.value = textSpan.textContent;
@@ -166,10 +169,12 @@
         actionsDiv.style.display = 'none';
 
         function finishEdit() {
+          isEditing = false; // 结束编辑状态
           const newVal = input.value.trim();
           if (newVal && newVal !== originalText) {
             customLabels[originalText] = newVal;
-          } else {
+          } else if (!newVal || newVal === originalText) {
+            // If empty or same as original, revert to original
             delete customLabels[originalText];
           }
           saveLabels();
@@ -181,6 +186,7 @@
           if (ke.key === 'Enter') {
             input.blur();
           } else if (ke.key === 'Escape') {
+            isEditing = false; // 取消编辑
             updateNavigator();
           }
           ke.stopPropagation();
@@ -208,7 +214,10 @@
       item.appendChild(textSpan);
       item.appendChild(actionsDiv);
 
-      item.addEventListener('click', () => {
+      item.addEventListener('click', (e) => {
+        // 如果点到了输入框，不执行跳转
+        if (e.target.tagName.toLowerCase() === 'input') return;
+        
         const scrollTarget = queryNode.closest('message') || queryNode.closest('[class*="query"]') || queryNode;
         scrollTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
         
