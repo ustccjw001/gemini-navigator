@@ -108,9 +108,15 @@
 /* Dark mode support */
 @media (prefers-color-scheme: dark) {
   #gemini-chat-navigator {
-    background-color: var(--bard-color-surface, rgba(30, 30, 30, 0.9));
-    border-color: var(--bard-color-hairline, #444);
+    background-color: var(--bard-color-surface, #1e1e1e);
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border instead of none */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5); /* Stronger shadow instead of border */
     color: var(--bard-color-on-surface, #e8eaed);
+  }
+  
+  #gemini-chat-navigator.collapsed {
+    background-color: var(--bard-color-surface-hover, #282a2c); /* Slightly lighter background for the floating button */
+    border-color: rgba(255, 255, 255, 0.15); /* Slightly more visible border for the circle */
   }
   
   .navigator-header {
