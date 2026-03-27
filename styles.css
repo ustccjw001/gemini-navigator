@@ -62,11 +62,11 @@
   flex: 0 0 24px !important; /* Force flex not to grow or shrink */
   display: block;
   margin: 0;
+  fill: var(--bard-color-on-surface, #1f1f1f); /* Apply directly to svg */
 }
 
 .navigator-toggle path {
-  fill: var(--bard-color-on-surface, #1f1f1f);
-  transition: fill 0.2s ease;
+  fill: inherit; /* Let path inherit from svg */
 }
 
 .header-actions {
@@ -131,7 +131,7 @@
     color: var(--bard-color-primary, #8ab4f8);
   }
 
-  .navigator-toggle path {
+  .navigator-toggle {
     fill: var(--bard-color-on-surface, #e8eaed) !important;
   }
 

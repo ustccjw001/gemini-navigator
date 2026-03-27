@@ -66,10 +66,14 @@
     toggleIcon.setAttribute('viewBox', '0 0 24 24');
     toggleIcon.setAttribute('width', '24');
     toggleIcon.setAttribute('height', '24');
+    // Ensure no inline fill overrides CSS
+    toggleIcon.removeAttribute('fill');
     toggleIcon.className = 'navigator-toggle';
     const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
     
     path.setAttribute('d', PATH_LEFT);
+    // Explicitly set path fill to inherit or currentColor to respect CSS
+    path.setAttribute('fill', 'currentColor');
     toggleIcon.appendChild(path);
 
     // Filter toggle
