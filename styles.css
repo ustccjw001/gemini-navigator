@@ -128,7 +128,7 @@
   }
 
   .navigator-toggle {
-    fill: var(--bard-color-on-surface, #e8eaed);
+    fill: var(--bard-color-on-surface, #e8eaed) !important;
   }
 
   .header-btn {
