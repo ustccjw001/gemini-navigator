@@ -110,7 +110,7 @@
   #gemini-chat-navigator {
     background-color: var(--bard-color-surface, rgba(30, 30, 30, 0.9));
     border-color: var(--bard-color-hairline, #444);
-    color: var(--bard-color-on-surface, #fff);
+    color: var(--bard-color-on-surface, #e8eaed);
   }
   
   .navigator-header {
@@ -119,6 +119,14 @@
 
   #gemini-chat-navigator h3 {
     color: var(--bard-color-primary, #8ab4f8);
+  }
+
+  .navigator-toggle {
+    fill: var(--bard-color-primary, #8ab4f8);
+  }
+
+  .header-btn {
+    color: var(--bard-color-on-surface, #e8eaed);
   }
 
   .header-btn:hover {
@@ -212,6 +220,10 @@
 @media (prefers-color-scheme: dark) {
   .navigator-item:hover {
     background-color: var(--bard-color-surface-hover, #3c4043);
+  }
+
+  .item-edit, .item-star {
+    color: var(--bard-color-hairline, #9aa0a6);
   }
 }
 
