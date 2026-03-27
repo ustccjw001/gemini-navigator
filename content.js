@@ -21,6 +21,7 @@
   const STAR_OUTLINE_SVG = `<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M22 9.24l-7.19-.62L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.63-7.03L22 9.24zM12 15.4l-3.76 2.27 1-4.28-3.32-2.88 4.38-.38L12 6.1l1.71 4.04 4.38.38-3.32 2.88 1 4.28L12 15.4z"/></svg>`;
   const STAR_FILLED_SVG = `<svg viewBox="0 0 24 24" width="18" height="18" fill="#fbbc04"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>`;
   const EDIT_SVG = `<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>`;
+  const ARROW_UP_SVG = `<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"/></svg>`;
 
 
   // Gemini uses various classes for user messages, but often attributes like data-test-id are more stable
@@ -73,7 +74,7 @@
 
     // Filter toggle
     filterToggle = document.createElement('div');
-    filterToggle.className = 'filter-toggle';
+    filterToggle.className = 'header-btn filter-toggle';
     filterToggle.title = '切换收藏筛选 / Toggle Favorites Filter';
     filterToggle.innerHTML = showFavoritesOnly ? STAR_FILLED_SVG : STAR_OUTLINE_SVG;
     
@@ -84,8 +85,35 @@
       updateNavigator();
     });
 
+    // Scroll to top button
+    const scrollTopBtn = document.createElement('div');
+    scrollTopBtn.className = 'header-btn scroll-top-btn';
+    scrollTopBtn.title = '加载更早会话 / Scroll to Top';
+    scrollTopBtn.innerHTML = ARROW_UP_SVG;
+    
+    scrollTopBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      // Gemini usually has a main scrollable container or body
+      const scrollableContainer = document.querySelector('chat-window') || 
+                                  document.querySelector('message-list') || 
+                                  document.querySelector('.infinite-scroller') || 
+                                  document.querySelector('.conversation-container') ||
+                                  window;
+                                  
+      if (scrollableContainer === window) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        scrollableContainer.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    });
+
+    const headerActions = document.createElement('div');
+    headerActions.className = 'header-actions';
+    headerActions.appendChild(scrollTopBtn);
+    headerActions.appendChild(filterToggle);
+
     header.appendChild(toggleIcon);
-    header.appendChild(filterToggle);
+    header.appendChild(headerActions);
     navContainer.appendChild(header);
 
     navList = document.createElement('div');

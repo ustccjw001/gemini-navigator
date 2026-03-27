@@ -65,20 +65,27 @@
   margin: 0;
 }
 
-.filter-toggle {
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.header-btn {
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 4px;
   border-radius: 4px;
   color: var(--bard-color-on-surface, #1f1f1f);
+  cursor: pointer;
 }
 
-.filter-toggle:hover {
+.header-btn:hover {
   background-color: var(--bard-color-surface-hover, #f0f4f9);
 }
 
-#gemini-chat-navigator.collapsed .filter-toggle {
+#gemini-chat-navigator.collapsed .header-actions {
   display: none;
 }
 
@@ -114,7 +121,7 @@
     color: var(--bard-color-primary, #8ab4f8);
   }
 
-  .filter-toggle:hover {
+  .header-btn:hover {
     background-color: var(--bard-color-surface-hover, #3c4043);
   }
 }
