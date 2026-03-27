@@ -271,10 +271,14 @@
         const scrollTarget = queryNode.closest('message') || queryNode.closest('[class*="query"]') || queryNode;
         scrollTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
         
+        // Highlight effect
+        const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const highlightColor = isDarkMode ? 'rgba(255, 235, 59, 0.2)' : 'rgba(255, 235, 59, 0.4)';
+        
         const originalBg = scrollTarget.style.backgroundColor;
         const originalTransition = scrollTarget.style.transition;
         scrollTarget.style.transition = 'background-color 0.5s';
-        scrollTarget.style.backgroundColor = 'rgba(255, 235, 59, 0.4)';
+        scrollTarget.style.backgroundColor = highlightColor;
         
         setTimeout(() => {
           scrollTarget.style.backgroundColor = originalBg;

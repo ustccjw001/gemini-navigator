@@ -164,6 +164,7 @@
 @media (prefers-color-scheme: dark) {
   .item-edit-input {
     color: var(--bard-color-on-surface, #fff);
+    border-color: var(--bard-color-primary, #8ab4f8);
   }
 }
 
