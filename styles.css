@@ -60,9 +60,13 @@
   max-width: 24px !important;
   max-height: 24px !important;
   flex: 0 0 24px !important; /* Force flex not to grow or shrink */
-  fill: var(--bard-color-on-surface, #1f1f1f); /* Make icon look nice and prominent */
   display: block;
   margin: 0;
+}
+
+.navigator-toggle path {
+  fill: var(--bard-color-on-surface, #1f1f1f);
+  transition: fill 0.2s ease;
 }
 
 .header-actions {
@@ -127,7 +131,7 @@
     color: var(--bard-color-primary, #8ab4f8);
   }
 
-  .navigator-toggle {
+  .navigator-toggle path {
     fill: var(--bard-color-on-surface, #e8eaed) !important;
   }
 
