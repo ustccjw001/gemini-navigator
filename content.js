@@ -93,18 +93,40 @@
     
     scrollTopBtn.addEventListener('click', (e) => {
       e.stopPropagation();
-      // Gemini usually has a main scrollable container or body
-      const scrollableContainer = document.querySelector('chat-window') || 
-                                  document.querySelector('message-list') || 
-                                  document.querySelector('.infinite-scroller') || 
-                                  document.querySelector('.conversation-container') ||
-                                  window;
-                                  
-      if (scrollableContainer === window) {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      } else {
-        scrollableContainer.scrollTo({ top: 0, behavior: 'smooth' });
+      
+      // Gemini's scrolling is tricky. We try to find the deepest scrollable container.
+      // Often it's `.infinite-scroller`, `main`, or `.message-list`
+      const containers = [
+        document.querySelector('.infinite-scroller'),
+        document.querySelector('chat-window'),
+        document.querySelector('main'),
+        document.querySelector('.conversation-container'),
+        document.querySelector('[data-test-id="chat-history"]'),
+        document.body,
+        document.documentElement
+      ];
+
+      // Find the first container that actually has scrollable content
+      let scrolled = false;
+      for (const container of containers) {
+        if (container && (container.scrollHeight > container.clientHeight)) {
+          container.scrollTo({ top: 0, behavior: 'smooth' });
+          scrolled = true;
+          // Don't break, scroll all possible containers just in case Gemini uses nested scrolling
+        }
       }
+
+      // Fallback: Just scroll the window
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      
+      // Another fallback for Gemini specific behavior: simulate pressing "Page Up" or "Home"
+      // Sometimes Gemini intercepts keyboard events for scrolling
+      try {
+        const firstMessage = document.querySelector('message, [class*="query"]');
+        if (firstMessage) {
+           firstMessage.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      } catch (err) {}
     });
 
     const headerActions = document.createElement('div');
